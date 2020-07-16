@@ -1,1 +1,21 @@
-<app-search-autocomplete></app-search-autocomplete>
+
+<div class="container">
+  <mat-card>
+    <app-search-autocomplete (notify)="getCityForecast($event)"></app-search-autocomplete>
+    <mat-grid-list cols="12" rowHeight="100px">
+      <div *ngIf="isLoaded">
+        <mat-grid-tile
+          *ngFor="let day of days"
+          [colspan]="2"
+          [rowspan]="1"
+        >
+            {{day.Date | date: 'EE' }}
+            {{day.Temperature.Maximum.Value}}
+        </mat-grid-tile>
+      </div>
+
+      <div *ngIf="!isLoaded">Loading...</div>
+    </mat-grid-list>
+  </mat-card>
+</div>
+

@@ -1,0 +1,20 @@
+/*.mat-grid-list {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  border: 2px black solid;*/
+/*}*/
+
+/*.mat-grid-tile {*/
+/*  border: 1px black solid;*/
+/*}*/
+ .mat-card{
+   width: 60%;
+   height: 60vh;
+   display: flex;
+   justify-content: center;
+ }
+ .container{
+   display: flex;
+   justify-content: center;
+   margin: 40px;
+ }
