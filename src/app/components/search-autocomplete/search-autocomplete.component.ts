@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable, observable, of} from 'rxjs';
 import {
   startWith,
-  map,
   debounceTime,
   switchMap,
   catchError,
   tap
 } from 'rxjs/operators';
 import {WeatherService} from '../../services/weather.service';
-import { Cities } from '../../model/interfaces';
+import { Cities, City } from '../../model/interfaces';
 
 @Component({
   selector: 'app-search-autocomplete',
@@ -19,21 +18,32 @@ import { Cities } from '../../model/interfaces';
 })
 export class SearchAutocompleteComponent implements OnInit {
 
-  constructor(public weatherService: WeatherService){ }
+  constructor(public weatherService: WeatherService){
+    this.notify.emit('215854');
+  }
+  @Output() notify = new EventEmitter<string>();
   public citiesAutoComplete: Observable<Cities> = null;
   public myControl = new FormControl();
 
   lookup(value: string): Observable<Cities> {
-    return this.weatherService.getCities(value.toLowerCase()).pipe(
-      // map the item property of the weather results as our return object
-      tap(res => console.log(res)),
-      // catch errors
-      catchError(_ => {
-        return of(null);
-      })
-    );
+      return this.weatherService.getCities(value.toLowerCase()).pipe(
+        // map the item property of the weather results as our return object
+        tap(res => console.log(res)),
+        // catch errors
+        catchError(_ => {
+          return of(null);
+        })
+      );
   }
-
+  displayFn(city: City): string {
+    if (city && city.LocalizedName && city.Country && city.Country.LocalizedName){
+      return `${city.LocalizedName}, ${city.Country.LocalizedName}`;
+    }
+    return '';
+  }
+  citySelected(city: City): void {
+    this.notify.emit(city.Key);
+  }
   ngOnInit(): void {
     this.citiesAutoComplete = this.myControl.valueChanges.pipe(
       startWith(''),
@@ -41,7 +51,7 @@ export class SearchAutocompleteComponent implements OnInit {
       debounceTime(300),
       // use switch map so as to cancel previous subscribed events, before creating new once
       switchMap(value => {
-        if (value !== '') {
+        if (value !== '' && typeof value === 'string') {
           // lookup from github
           return this.lookup(value);
         } else {

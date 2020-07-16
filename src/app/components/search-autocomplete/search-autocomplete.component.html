@@ -1,15 +1,18 @@
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <input type="text"
-           placeholder="Search cities"
-           aria-label="Number"
-           matInput
-           [formControl]="myControl"
-           [matAutocomplete]="auto">
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      <mat-option *ngFor="let option of citiesAutoComplete | async; let index = index" [value]="option.LocalizedName">
-        {{option.LocalizedName | titlecase}}, {{option.Country.LocalizedName}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
+
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input type="text"
+               placeholder="Search cities"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="citySelected($event.option.value)">
+          <mat-option *ngFor="let option of citiesAutoComplete | async; let index = index" [value]="option">
+            {{option.LocalizedName | titlecase}}, {{option.Country.LocalizedName}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+
+
