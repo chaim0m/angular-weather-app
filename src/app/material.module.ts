@@ -26,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSortModule,
     MatFormFieldModule,
     MatAutocompleteModule,
+    MatButtonToggleModule,
   ],
   exports: [
     MatIconModule,
@@ -90,6 +92,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSortModule,
     MatFormFieldModule,
     MatAutocompleteModule,
+    MatButtonToggleModule,
   ]
 })
 export class Material { }
