@@ -1,1 +1,19 @@
-<p>favorites works!</p>
+<div fxLayout="column" fxLayoutAlign="center center" class="container">
+<div fxLayout="row" fxLayoutAlign="center center">
+    <mat-card (click)="onFavoriteClick(favorite)"
+              *ngFor="let favorite of FavoritesList"
+              class="favorite-card"
+              fxLayout="column" fxLayoutAlign="center center"
+              fxLayoutGap="0.5rem">
+      <img [src]="weatherService.getIcon(favorite.weatherIcon)" alt="weather icon" mat-card-avatar
+           typeof="foaf:Image">
+      <mat-card-header fxLayoutAlign="center center">
+        <mat-card-title>{{favorite.LocalizedName | titlecase }}, {{favorite.Country.LocalizedName}}</mat-card-title>
+        <mat-card-title>{{favorite.WeatherDesc }}</mat-card-title>
+        <mat-card-subtitle>{{favorite.Temperature+'°'}} C
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <h3 *ngIf="!FavoritesList.length">There are no favorites as the moment</h3>
+</div>
+</div>
