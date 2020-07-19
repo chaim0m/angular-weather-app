@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable, Subscription, of} from 'rxjs';
 import {catchError, take} from 'rxjs/operators';
 import {WeatherService} from '../../services/weather.service';
 import { City } from '../../model/interfaces';
@@ -8,7 +7,7 @@ import { defaultCity } from '../../model/defaults';
 import {UtilsService} from '../../services/utils.service';
 import {Store, select} from '@ngrx/store';
 import * as favoritesActions from '../../store/actions/favorites.actions';
-import {favoritesReducer, FavoritesState} from '../../store/reducers/favorites.reducer';
+import { FavoritesState } from '../../store/reducers/favorites.reducer';
 import * as fromRoot from '../../store/reducers';
 
 @Component({
@@ -130,15 +129,20 @@ export class HomeComponent implements OnInit {
           }
         });
       } else {
-        if (!navigator.geolocation && !this.currentCity) {
-          this.getCityForecast(defaultCity);
-        } else if (navigator.geolocation && !this.currentCity) {
-          navigator.geolocation.getCurrentPosition(
-            (data: any) => {
-              this.searchCityByGeoPosition(data.coords.latitude, data.coords.longitude);
-            });
+        if (!this.currentCity){
+          let currentPos
+          navigator.geolocation.getCurrentPosition((data: any) => currentPos  = data);
+          navigator.permissions.query({name: 'geolocation'}).then(({state}) => {
+            if (state === 'denied') {
+              if (!this.currentCity) {
+                this.getCityForecast(defaultCity);
+              }
+            } else {
+              this.searchCityByGeoPosition(currentPos.coords.latitude, currentPos.coords.longitude);
+            }
+          });
         }
-      }
-    });
+        }
+      });
   }
 }
