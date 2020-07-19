@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {TopNavComponent} from './components/top-nav/top-nav.component';
 import {FavoritesComponent} from './views/favorites/favorites.component';
 import {HomeComponent} from './views/home/home.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {favoritesReducer} from './store/reducers/favorites.reducer';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import {HomeComponent} from './views/home/home.component';
     Material,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {})
+    FlexLayoutModule,
+    StoreModule.forRoot({favorites: favoritesReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
