@@ -3,6 +3,9 @@ export interface City {
   LocalizedName: string;
   isFavorite: boolean;
   Country: Country;
+  WeatherDesc: string;
+  weatherIcon: number;
+  Temperature: number;
 }
 
 interface Country {
