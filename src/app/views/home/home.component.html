@@ -1,21 +1,61 @@
 
-<div class="container">
-  <mat-card>
-    <app-search-autocomplete (notify)="getCityForecast($event)"></app-search-autocomplete>
-    <mat-grid-list cols="12" rowHeight="100px">
-      <div *ngIf="isLoaded">
-        <mat-grid-tile
-          *ngFor="let day of days"
-          [colspan]="2"
-          [rowspan]="1"
-        >
-            {{day.Date | date: 'EE' }}
-            {{day.Temperature.Maximum.Value}}
-        </mat-grid-tile>
-      </div>
-
-      <div *ngIf="!isLoaded">Loading...</div>
-    </mat-grid-list>
+<div fxLayout="column" fxLayoutAlign="center center" class="container">
+  <mat-card fxLayout="column" class="top-mat-card"
+            fxLayoutGap="2rem">
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <mat-icon class="add-right-margin">search</mat-icon>
+        <app-search-autocomplete (notify)="getCityForecast($event)"></app-search-autocomplete>
+      <mat-button-toggle-group [value]="isCelsius" (change)="convertUnitType()" name="unitType" aria-label="Unit type" class="move-right">
+        <mat-button-toggle [value]="true">C</mat-button-toggle>
+        <mat-button-toggle [value]="false">F</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+          <div *ngIf="isLoaded" fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <div fxLayout="row wrap" fxLayout.lt-sm="row" fxLayoutAlign="center">
+              <img [src]="weatherService.getIcon(currentCity?.weatherIcon)" alt="weather icon" class="img-responsive"
+                   height="45"
+                   typeof="foaf:Image">
+              <mat-card-title-group>
+                <mat-card-title>{{currentCity?.LocalizedName}}, {{currentCity?.Country.LocalizedName}}</mat-card-title>
+                <mat-card-subtitle>
+                  {{currentCity?.Temperature+'°'}} {{isCelsius? 'C' : 'F'}}
+                </mat-card-subtitle>
+              </mat-card-title-group>
+            </div>
+            <mat-card-title fxLayout="row wrap" fxLayout.lt-sm="row" fxLayoutAlign="center">
+              {{currentCity?.WeatherDesc}}
+            </mat-card-title>
+            <div *ngIf="currentCity.isFavorite"  fxLayout="row" fxLayoutAlign="center" fxLayoutGap="0.5rem">
+              <mat-icon>favorite</mat-icon>
+              <button (click)="onToggleFavoriteClick()" mat-raised-button>
+                Remove from favorites
+              </button>
+            </div>
+            <div *ngIf="!currentCity.isFavorite"  fxLayout="row" fxLayoutAlign="center" fxLayoutGap="0.5rem">
+              <mat-icon>favorite_outline</mat-icon>
+              <button (click)="onToggleFavoriteClick()" mat-raised-button>
+                Add to favorites
+              </button>
+            </div>
+          </div>
+    <div fxLayout="row wrap" fxLayoutAlign="center center">
+      <mat-divider></mat-divider>
+    </div>
+    <mat-card-title fxLayoutAlign="center center">
+      5 Day Forecast
+    </mat-card-title>
+          <mat-card-content *ngIf="isLoaded" fxLayout="row wrap" fxLayoutGap="2rem">
+            <mat-card *ngFor="let day of days" fxLayout="column" class="day-card"
+                      fxLayoutAlign="center center" fxLayoutGap="0.5rem">
+              <img [src]="weatherService.getIcon(day.Day.Icon)" alt="weather icon" class="img-responsive" mat-card-avatar
+                   typeof="foaf:Image">
+              <mat-card-header fxLayoutAlign="center center">
+                <mat-card-title>{{day.Date | date : 'EEEE' }}</mat-card-title>
+                <mat-card-subtitle>{{day.Temperature.Maximum.Value+'°'}} {{isCelsius? 'C' : 'F'}} - {{day.Temperature.Minimum.Value+'°' }} {{isCelsius? 'C' : 'F'}}
+                </mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          </mat-card-content>
   </mat-card>
 </div>
 
