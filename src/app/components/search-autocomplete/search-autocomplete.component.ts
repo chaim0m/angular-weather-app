@@ -18,10 +18,8 @@ import { Cities, City } from '../../model/interfaces';
 })
 export class SearchAutocompleteComponent implements OnInit {
 
-  constructor(public weatherService: WeatherService){
-    this.notify.emit('215854');
-  }
-  @Output() notify = new EventEmitter<string>();
+  constructor(public weatherService: WeatherService){ }
+  @Output() notify = new EventEmitter<City>();
   public citiesAutoComplete: Observable<Cities> = null;
   public myControl = new FormControl();
 
@@ -42,7 +40,7 @@ export class SearchAutocompleteComponent implements OnInit {
     return '';
   }
   citySelected(city: City): void {
-    this.notify.emit(city.Key);
+    this.notify.emit(city);
   }
   ngOnInit(): void {
     this.citiesAutoComplete = this.myControl.valueChanges.pipe(
