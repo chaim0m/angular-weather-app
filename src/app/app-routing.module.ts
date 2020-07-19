@@ -4,8 +4,9 @@ import {HomeComponent} from './views/home/home.component';
 import {FavoritesComponent} from './views/favorites/favorites.component';
 
 const routes: Routes = [
-   {path: '', component: HomeComponent},
-  {path: 'favorites', component: FavoritesComponent}
+    {path: '', redirectTo: '/home', pathMatch: 'full'},
+    {path: 'home', component: HomeComponent},
+    {path: 'favorites', component: FavoritesComponent}
   ];
 
 @NgModule({
