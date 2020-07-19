@@ -1,0 +1,19 @@
+.container{
+  display: flex;
+  justify-content: center;
+  margin-top: 30vh;
+  margin-right: 10vw;
+  margin-left: 10vw;
+}
+
+.favorite-card {
+  text-align: center;
+  align-self: center;
+  max-width: 12rem;
+  min-width: 10rem;
+  min-height:12rem;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+

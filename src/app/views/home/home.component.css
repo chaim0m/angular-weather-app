@@ -1,20 +1,37 @@
 /*.mat-grid-list {*/
 /*  display: flex;*/
-/*  justify-content: center;*/
 /*  border: 2px black solid;*/
 /*}*/
 
 /*.mat-grid-tile {*/
 /*  border: 1px black solid;*/
 /*}*/
- .mat-card{
-   width: 60%;
-   height: 60vh;
-   display: flex;
-   justify-content: center;
+ .top-mat-card{
+   min-width: 40vw;
+   /*width: 70%;*/
+   /*height: 60vh;*/
+   /*display: flex;*/
+   /*justify-content: center;*/
  }
  .container{
    display: flex;
    justify-content: center;
    margin: 40px;
  }
+
+
+mat-card-content {
+  margin: 0rem 1rem 1rem 1rem;
+}
+
+.day-card{
+  /*margin-top: 2rem;*/
+  text-align: center;
+}
+
+.mat-button-toggle-group {
+  margin-left: auto;
+}
+.add-right-margin{
+  margin-left: 1.5rem;
+}
