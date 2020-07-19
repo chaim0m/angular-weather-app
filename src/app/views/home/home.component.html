@@ -44,10 +44,10 @@
     <mat-card-title fxLayoutAlign="center center">
       5 Day Forecast
     </mat-card-title>
-          <mat-card-content *ngIf="isLoaded" fxLayout="row wrap" fxLayoutGap="2rem">
+          <mat-card-content *ngIf="isLoaded" fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="2rem">
             <mat-card *ngFor="let day of days" fxLayout="column" class="day-card"
                       fxLayoutAlign="center center" fxLayoutGap="0.5rem">
-              <img [src]="weatherService.getIcon(day.Day.Icon)" alt="weather icon" class="img-responsive" mat-card-avatar
+              <img [src]="weatherService.getIcon(day.Day.Icon)" alt="weather icon" mat-card-avatar
                    typeof="foaf:Image">
               <mat-card-header fxLayoutAlign="center center">
                 <mat-card-title>{{day.Date | date : 'EEEE' }}</mat-card-title>
