@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {  catchError } from 'rxjs/operators';
+import {  Observable, throwError } from 'rxjs';
 import {Cities} from '../model/interfaces';
 
 @Injectable({
@@ -10,7 +10,9 @@ import {Cities} from '../model/interfaces';
 export class WeatherService {
 
   private url = 'https://dataservice.accuweather.com/';
-  private APIKey = 'MtoQd62TAl5buckrt5EXkWw46h76WdNq';
+  private APIKey = 'lDsXqqUzto7ckvzLEObV8GXzkGHlfGut';
+  private API_ICONS_URL = 'https://developer.accuweather.com/sites/default/files/';
+  private ICONS_URL_END = '-s.png';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -38,9 +40,7 @@ export class WeatherService {
 
   // Get current weather from API
   public getCurrentCondition(locationKey: string): Observable<any> {
-
     const getCurrentConditionURL = `${this.url}currentconditions/v1/${locationKey}?apikey=${this.APIKey}`;
-
     return this.httpClient.get(getCurrentConditionURL)
       .pipe(
         catchError(this.handleError)
@@ -60,8 +60,14 @@ export class WeatherService {
 
   // Handle Errors - global function
   private handleError(error: HttpErrorResponse): Observable<never> {
-    console.error('An error occurred:', error);
-    return throwError('Something bad happened, please try again later.');
+    return throwError(JSON.stringify(error.statusText));
+  }
+
+    getIcon(icon: number): string {
+    if (icon){
+      return `${this.API_ICONS_URL}${icon > 9 ? icon : '0' + icon}${this.ICONS_URL_END}`;
+    }
+    return '';
   }
 
 }
