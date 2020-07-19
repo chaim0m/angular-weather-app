@@ -2,3 +2,12 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  background: url("./assets/clouds.jpg");
+  background-size: 100% 100%;
+}
+
+
+.mat-card {
+  background: #0080FF80;
+}
