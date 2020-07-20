@@ -4,6 +4,7 @@
              placeholder="Search cities"
              aria-label="Number"
              matInput
+             required
              [formControl]="myControl"
              [matAutocomplete]="auto">
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="citySelected($event.option.value)">
@@ -11,6 +12,12 @@
           {{option.LocalizedName | titlecase}}, {{option.Country.LocalizedName}}
         </mat-option>
       </mat-autocomplete>
+      <mat-error *ngIf="myControl.hasError('englishOnly')">
+        Only English Letters are allowed, <strong>'{{myControl.errors.englishOnly.value}}'</strong> is not allowed.
+      </mat-error>
+      <mat-error *ngIf="myControl.hasError('required')">
+        This is <strong>required</strong>
+      </mat-error>
     </mat-form-field>
   </form>
 

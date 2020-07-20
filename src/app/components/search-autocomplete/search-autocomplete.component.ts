@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {NG_VALIDATORS, Validator, AbstractControl, ValidatorFn, FormControl} from '@angular/forms';
 import {Observable, observable, of} from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 import {
   startWith,
   debounceTime,
@@ -18,18 +20,31 @@ import { Cities, City } from '../../model/interfaces';
 })
 export class SearchAutocompleteComponent implements OnInit {
 
-  constructor(public weatherService: WeatherService){ }
+  constructor(private snackBar: MatSnackBar, public weatherService: WeatherService){
+    this.myControl.setValidators(this.allowedChars());
+  }
   @Output() notify = new EventEmitter<City>();
   public citiesAutoComplete: Observable<Cities> = null;
-  public myControl = new FormControl();
+  public myControl = new FormControl()
+  allowedChars(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null  => {
+      const valid = new RegExp(/^[a-zA-Z]+$/).test(control.value)
+      if (!valid){
+        return {'englishOnly': { value: control.value }};
+      }
+      return null;
+    };
+  }
 
   lookup(value: string): Observable<Cities> {
       return this.weatherService.getCities(value.toLowerCase()).pipe(
-        // map the item property of the weather results as our return object
-        tap(res => console.log(res)),
         // catch errors
-        catchError(_ => {
-          return of(null);
+        catchError((err, caught) => {
+          this.openSnackBar(`An Error occured in the auto complete search: ${err}`);
+          if (caught){
+            return;
+          }
+          return caught;
         })
       );
   }
@@ -41,6 +56,11 @@ export class SearchAutocompleteComponent implements OnInit {
   }
   citySelected(city: City): void {
     this.notify.emit(city);
+  }
+  openSnackBar(error: string): void {
+    this.snackBar.open(error, 'Close', {
+      duration: 3000,
+    });
   }
   ngOnInit(): void {
     this.citiesAutoComplete = this.myControl.valueChanges.pipe(
