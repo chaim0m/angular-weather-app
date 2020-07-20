@@ -28,7 +28,7 @@ export class SearchAutocompleteComponent implements OnInit {
   public myControl = new FormControl()
   allowedChars(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null  => {
-      const valid = new RegExp(/^[a-zA-Z]+$/).test(control.value)
+      const valid = new RegExp(/^[a-zA-Z, ]+$/).test(control.value)
       if (!valid){
         return {'englishOnly': { value: control.value }};
       }
