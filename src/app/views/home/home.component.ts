@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit {
           let currentPos
           navigator.geolocation.getCurrentPosition((data: any) => currentPos  = data);
           navigator.permissions.query({name: 'geolocation'}).then(({state}) => {
-            if (state === 'denied') {
+            if (state === 'denied' || !currentPos) {
               if (!this.currentCity) {
                 this.getCityForecast(defaultCity);
               }
